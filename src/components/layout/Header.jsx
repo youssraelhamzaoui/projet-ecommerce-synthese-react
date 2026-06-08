@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
-import { toast } from 'react-toastify';
+
 
 /* ──────────────────────────────────────────────
    Matches the Laravel admin topbar + sidebar
@@ -32,12 +32,12 @@ export default function Header() {
 
   const onLogout = async () => {
     await logout();
-    toast.success('Déconnexion réussie');
     navigate('/');
   };
 
   const NAV = [
     { to: '/',           label: 'Accueil',    end: true },
+    { to: '/about',      label: 'À propos',   end: true },
     { to: '/produits',   label: 'Produits',   end: false },
     { to: '/categories', label: 'Catégories', end: false },
     { to: '/marques',    label: 'Marques',    end: false },
@@ -70,18 +70,36 @@ export default function Header() {
       }}>
         {/* Brand */}
         <Link to="/" style={{ textDecoration: 'none', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 34, height: 34, borderRadius: 8,
-            background: 'linear-gradient(135deg, #7B1F30, #C8937A)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontSize: 17,
-            boxShadow: '0 3px 10px rgba(123,31,48,0.35)',
+          
+          {/* Conteneur pour couper le vide de l'image */}
+          <div style={{ 
+            width: 150,          /* Largeur de la zone visible pour le logo (la harpe) */
+            height: 100,         /* Hauteur du logo */
+            overflow: 'hidden', /* Coupe tout ce qui dépasse (le texte intégré à l'image) */
+            display: 'flex',
+            alignItems: 'center',
+            marginLeft: '-5px'  /* Aligne parfaitement le logo sur le bord gauche */
           }}>
-            <i className="bx bxs-music" />
+            <img 
+              src="/logo.png" 
+              alt="Music Store Logo" 
+              style={{
+                height: 110,             /* On agrandit l'image d'origine pour que la harpe soit géante */
+                width: 'auto',
+                objectFit: 'contain',
+                objectPosition: 'left center', /* Force l'affichage sur la harpe (à gauche) et cache le reste */
+                filter: 'none',
+                opacity: 1,
+                mixBlendMode: 'normal'
+              }} 
+            />
           </div>
-          <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.4px', color: 'var(--text-primary)' }}>
-            Luxe<span style={{ fontWeight: 300, color: 'var(--rosegold)' }}>Shop</span>
+
+          {/* Le nom de ton site reste affiché juste à côté, propre et bien aligné */}
+          <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: '-0.4px', color: 'var(--text-primary)' }}>
+            Music <span style={{ fontWeight: 300, color: 'var(--rosegold)' }}> Store </span>
           </span>
+          
         </Link>
 
         {/* Search (hidden on mobile) */}
@@ -228,7 +246,7 @@ export default function Header() {
               <Link to="/connexion" style={{ ...ghostBtnStyle }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(123,31,48,0.06)'; e.currentTarget.style.borderColor = 'rgba(123,31,48,0.28)'; e.currentTarget.style.color = 'var(--bordeaux)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = ''; e.currentTarget.style.color = ''; }}>
-                Connexion
+                login
               </Link>
               <Link to="/inscription" style={primaryBtnStyle}
                 onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg,#5E1624 0%,#7B1F30 100%)'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(123,31,48,0.35)'; }}
@@ -262,7 +280,7 @@ export default function Header() {
           ))}
           {!isAuthenticated && (
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-              <Link to="/connexion" style={ghostBtnStyle} onClick={() => setMobile(false)}>Connexion</Link>
+              <Link to="/connexion" style={ghostBtnStyle} onClick={() => setMobile(false)}>login</Link>
               <Link to="/inscription" style={primaryBtnStyle} onClick={() => setMobile(false)}>S'inscrire</Link>
             </div>
           )}

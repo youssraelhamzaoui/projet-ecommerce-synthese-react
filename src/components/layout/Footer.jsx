@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
-  const NAV   = [['/', 'Accueil'], ['/produits', 'Produits'], ['/categories', 'Catégories'], ['/marques', 'Marques'], ['/contact', 'Contact']];
+  const NAV   = [['/', 'Accueil'], ['/about', 'À propos'], ['/produits', 'Produits'], ['/categories', 'Catégories'], ['/marques', 'Marques'], ['/contact', 'Contact']];
   const ACCT  = [['/connexion', 'Connexion'], ['/inscription', 'Inscription'], ['/profil', 'Mon profil'], ['/commandes', 'Mes commandes'], ['/panier', 'Mon panier']];
 
   return (

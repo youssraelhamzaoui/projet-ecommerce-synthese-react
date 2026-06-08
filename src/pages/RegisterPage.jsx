@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
@@ -14,7 +14,9 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors]   = useState({});
 
-  if (isAuthenticated) { navigate('/'); return null; }
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
@@ -29,7 +31,7 @@ export default function RegisterPage() {
     try {
       await register(form);
       toast.success('Compte créé avec succès !');
-      navigate('/');
+      navigate('/connexion', { replace: true });
     } catch (err) {
       if (err.response?.data?.errors) setErrors(err.response.data.errors);
       else toast.error(err.response?.data?.message || 'Erreur lors de l\'inscription');

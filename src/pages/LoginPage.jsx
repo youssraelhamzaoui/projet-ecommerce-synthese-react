@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
@@ -18,7 +18,10 @@ export default function LoginPage() {
   const [showPw, setShowPw]   = useState(false);
   const [loading, setLoading] = useState(false);
 
-  if (isAuthenticated) { navigate(from, { replace: true }); return null; }
+  const destination = from.startsWith('/connexion') || from.startsWith('/inscription') ? '/' : from;
+  if (isAuthenticated) {
+    return <Navigate to={destination} replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +29,9 @@ export default function LoginPage() {
     try {
       await login(form);
       toast.success('Bienvenue !');
-      navigate(from, { replace: true });
+      // const destination = from.startsWith('/connexion') || from.startsWith('/inscription') ? '/' : from;
+      // navigate(destination, { replace: true });
+      navigate('/profil', { replace: true });
     } catch (err) {
       toast.error(err.response?.data?.error || 'Identifiants incorrects');
     } finally { setLoading(false); }

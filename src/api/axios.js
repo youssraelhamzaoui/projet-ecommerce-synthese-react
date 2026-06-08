@@ -17,7 +17,10 @@ api.interceptors.response.use(
     if (err.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('membre');
-      window.location.href = '/login';
+      const path = window.location.pathname;
+      if (!path.startsWith('/connexion') && !path.startsWith('/inscription')) {
+        window.location.href = '/connexion';
+      }
     }
     return Promise.reject(err);
   }

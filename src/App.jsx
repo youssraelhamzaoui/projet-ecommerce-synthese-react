@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,6 +17,7 @@ import RegisterPage      from './pages/RegisterPage';
 import ProfilePage       from './pages/ProfilePage';
 import OrdersPage        from './pages/OrdersPage';
 import ContactPage       from './pages/ContactPage';
+import AboutPage         from './pages/AboutPage';
 import CategoriesPage    from './pages/CategoriesPage';
 import BrandsPage        from './pages/BrandsPage';
 
@@ -34,6 +35,8 @@ export default function App() {
             <Route path="/connexion"   element={<LoginPage />} />
             <Route path="/inscription" element={<RegisterPage />} />
 
+            <Route path="/login" element={<Navigate to="/connexion" replace />} />
+
             {/* Public pages with layout */}
             <Route path="/"              element={<WithLayout><HomePage /></WithLayout>} />
             <Route path="/produits"      element={<WithLayout><ProductsPage /></WithLayout>} />
@@ -41,7 +44,9 @@ export default function App() {
             <Route path="/panier"        element={<WithLayout><CartPage /></WithLayout>} />
             <Route path="/categories"    element={<WithLayout><CategoriesPage /></WithLayout>} />
             <Route path="/marques"       element={<WithLayout><BrandsPage /></WithLayout>} />
+   
             <Route path="/contact"       element={<WithLayout><ContactPage /></WithLayout>} />
+            <Route path="/about"         element={<WithLayout><AboutPage /></WithLayout>} />
 
             {/* Protected pages */}
             <Route path="/commande"  element={<WithLayout><ProtectedRoute><CheckoutPage /></ProtectedRoute></WithLayout>} />
